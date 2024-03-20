@@ -10,13 +10,6 @@ import (
 )
 
 func main() {
-
-	// redisClient := redis.NewClient(&redis.Options{
-	// 	Addr:     "localhost:6379", // Redis server address
-	// 	Password: "",               // Redis server password
-	// 	DB:       0,                // Default database
-	// })
-	// defer redisClient.Close()
 	app := fiber.New()
 	database, err := db.NewPostgreSQLDB()
 	if err != nil {
