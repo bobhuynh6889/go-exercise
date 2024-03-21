@@ -2,6 +2,8 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
+	"os"
 
 	_ "github.com/lib/pq"
 )
@@ -17,14 +19,24 @@ type PostgreSQLDB struct {
 }
 
 func NewPostgreSQLDB() (Database, error) {
-	// user := os.Getenv("DATABASE_USER")
-	// password := os.Getenv("DATABASE_PASSWORD")
-	// dbname := os.Getenv("DATABASE_NAME")
-	// host := os.Getenv("DATABASE_HOST")
-	// port := os.Getenv("DATABASE_PORT")
-	// connStr := fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=disable",
-	// 	user, password, dbname, host, port)
-	db, err := sql.Open("postgres", "user=bobhuynh password=postgres dbname=postgres host=192.168.215.2 port=5432 sslmode=disable")
+	dbUser := os.Getenv("DATABASE_USER")
+	dbPassword := os.Getenv("DATABASE_PASSWORD")
+	dbName := os.Getenv("DATABASE_NAME")
+	dbHost := os.Getenv("DATABASE_HOST")
+	dbPort := os.Getenv("DATABASE_PORT")
+	dbSSLMode := os.Getenv("DB_SSL_MODE")
+
+	fmt.Println("DATABASE_USER:", dbUser)
+	fmt.Println("DB_PASSWORD:", dbPassword)
+	fmt.Println("DATABASE_NAME:", dbName)
+	fmt.Println("DATABASE_HOST:", dbHost)
+	fmt.Println("DATABASE_PORT:", dbPort)
+	fmt.Println("DB_SSL_MODE:", dbSSLMode)
+
+	connectionString := fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=%s",
+		dbUser, dbPassword, dbName, dbHost, dbPort, dbSSLMode)
+
+	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		return nil, err
 	}
